@@ -29,9 +29,6 @@ class Square : public TwoDimensionShape {
     double area(){
         return side*side; 
     }
-    double volume(){
-        throw logic_error("Volume cant be formed with 2D shapes HAHAHAH BOZO ....");
-    }
 };
 
 class Rectangle : public TwoDimensionShape {
@@ -44,9 +41,6 @@ class Rectangle : public TwoDimensionShape {
     }
     double area(){
         return length*width; 
-    }
-    double volume(){
-        throw logic_error("Volume cant be formed with 2D shapes HAHAHAH BOZO ....");
     }
 
 };
