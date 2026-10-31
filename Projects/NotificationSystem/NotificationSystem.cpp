@@ -40,7 +40,7 @@ class TimeStampDec : public INotificationDecorator{
         this->time = time ; 
     }
     string GetContent()override{
-        return ref->GetContent() + " Sent At : "+time+'\n';
+        return ref->GetContent() + " Sent At : "+time;
     }
 };
 
@@ -51,7 +51,7 @@ class SignatureDec : public INotificationDecorator{
         this->name = name ; 
     }
     string GetContent()override{
-        return ref->GetContent() + " Sent By : " + name + '\n';
+        return ref->GetContent() + " Sent By : " + name;
     }
 };
 
@@ -189,10 +189,11 @@ mutex NotificationService::mtx  ;
 int main(){
     NotificationService* notificationservice = NotificationService::GetInstance();
     Observable* observable = new Observable();
+    notificationservice->SetObservable(observable);
     NotificationObserver* observer = new NotificationObserver(observable);
     observable->addObserver(observer);
     SimpleNotification* simplenotification = new SimpleNotification("This is a simple message");
-    observable->SetNotification(simplenotification);
+    notificationservice->SendNotification(simplenotification);
     NotificationEngine* engine = new NotificationEngine();
     EmailStratergy* email = new EmailStratergy("Unnati1470@gmail.com");
     SMSStratergy* sms = new SMSStratergy("9811901470");
@@ -203,6 +204,6 @@ int main(){
     observable->addObserver(engine);
     observable->addObserver(logger);
     INotification* secondsimplenotification = new TimeStampDec( "3:03 Pm IST" , new SignatureDec("Monik Rayu" , new SimpleNotification("This message is for all")));
-    observable->SetNotification(secondsimplenotification);
+    notificationservice->SendNotification(secondsimplenotification);
     return 0 ; 
 }
